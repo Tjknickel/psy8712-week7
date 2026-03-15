@@ -22,4 +22,14 @@ week7_tbl <- read.csv("../data/week3.csv", header = TRUE) %>%
 week7_tbl %>%
   ggpairs(columns = grep("^q", names(week7_tbl)))
 
+(week7_tbl %>%
+  ggplot(aes(timeStart, q1)) +
+  geom_point() +
+  labs(x = "Date of Experiment", y = "Q1 Score") 
+  ) %>%
+  ggsave("../figs/fig1.png",., height = 5, width = 8, units = "in", dpi = 600)
+
+
+
+
   
