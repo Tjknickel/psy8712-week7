@@ -8,13 +8,13 @@ library(GGally)
 # Data Import and Cleaning 
 week7_tbl <- read.csv("../data/week3.csv", header = TRUE) %>%
   mutate(across(c(timeStart, timeEnd), as.POSIXct)) %>%
-  pivot_longer(condition:gender, names_to = "Variable", values_to = "Level") %>%
-  mutate(Variable = str_replace_all(Variable, c("condition" = "Condition", "gender" = "Gender"))) %>%
-  mutate(Label = Level) %>%
-  mutate(Label = str_replace_all(Label, c("^A$" = "Block A", "^B$" = "Block B", "C" = "Control", "M" = "Male", "F" = "Female"))) %>%
+  rename(Condition = condition, Gender = gender) %>%
+  mutate(Condition = str_replace_all(Condition, c("^A$" = "Block A", "^B$" = "Block B", "C" = "Control"))) %>%
+  mutate(Gender = str_replace_all(Gender, c("M" = "Male", "F" = "Female"))) %>%
   filter(q6 == 1) %>%
   select(-q6) %>%
   mutate(timeSpent = difftime(timeEnd, timeStart, units = "mins"))
+
 
 
 
@@ -28,8 +28,8 @@ week7_tbl %>%
   labs(x = "Date of Experiment", y = "Q1 Score") 
   ) %>%
   ggsave("../figs/fig1.png",., height = 5, width = 8, units = "in", dpi = 600)
-
-
-
-
-  
+(week7_tbl %>%
+  ggplot(aes(q1, q2, color = factor(Gender, levels = c("Male", "Female")))) +
+  geom_jitter() +
+  scale_color_manual(values = c("#F8766D", "#00BFC4"), name = "Participant Gender")) %>%
+  ggsave("../figs/fig2.png",., height = 5, width = 8, units = "in", dpi = 600)
