@@ -46,3 +46,11 @@ week7_tbl %>%
   labs(y = "Time Elapsed (mins)")
   ) %>%
   ggsave("../figs/fig4.png",., height = 5, width = 8, units = "in", dpi = 600)
+(week7_tbl %>%
+  ggplot(aes(q5, q7, color = Condition)) + 
+  geom_jitter() + 
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Score on Q5", y = "Score on Q7", color = "Experimental Condition") +
+  theme(legend.position = "bottom", legend.background = element_rect(fill = "#DFDFDF"))
+  ) %>%
+  ggsave("../figs/fig5.png",., height = 5, width = 8, units = "in", dpi = 600)
